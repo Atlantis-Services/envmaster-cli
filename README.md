@@ -6,15 +6,17 @@ A free or paid EnvMaster account is required to use this tool.
 
 ## Installation
 
-Build from source (JDK 17+ and Gradle required):
-
+**macOS / Linux**
 ```bash
-git clone https://github.com/Atlantis-Services/envmaster-cli
-cd envmaster-cli
-./gradlew installDist
+curl -fsSL https://raw.githubusercontent.com/Atlantis-Services/envmaster-cli/master/install.sh | sh
 ```
 
-Add `build/install/envmaster/bin` to your `PATH`.
+**Windows** (PowerShell)
+```powershell
+irm https://raw.githubusercontent.com/Atlantis-Services/envmaster-cli/master/install.ps1 | iex
+```
+
+To uninstall: `envmaster uninstall`
 
 ## Quick start
 
@@ -36,6 +38,7 @@ envmaster run -- <cmd>    # run any command with env vars injected
 | `project [id\|name\|--list]`     | Set or show the active project |
 | `environment [id\|name\|--list]` | Set or show the active environment |
 | `profile [list\|use\|remove]`    | Manage authentication profiles |
+| `uninstall` | Remove envmaster from your system |
 
 Run `envmaster <command> --help` for full flag details.
 
