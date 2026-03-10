@@ -1,6 +1,6 @@
 # envmaster
 
-The official CLI for [EnvMaster](https://atlantisservices.net) — securely manage environment variables across projects and teams.
+The official CLI for [EnvMaster](https://envmaster.dev) — securely manage environment variables across projects and teams.
 
 A free or paid EnvMaster account is required to use this tool.
 
@@ -9,7 +9,7 @@ A free or paid EnvMaster account is required to use this tool.
 Build from source (JDK 17+ and Gradle required):
 
 ```bash
-git clone https://github.com/atlantisservices/envmaster-client
+git clone https://github.com/Atlantis-Services/envmaster-cli
 cd envmaster-client
 ./gradlew installDist
 ```
@@ -69,7 +69,7 @@ envmanager profile use work        # switch active profile
 
 ## Contributing
 
-Open an issue before submitting a PR for large changes. Fork the repo, create a branch off `main`, and open a pull request.
+Open an issue before submitting a PR for large changes. Fork the repo, create a branch off `master`, and open a pull request.
 
 ## License
 
