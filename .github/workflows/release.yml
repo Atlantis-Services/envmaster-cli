@@ -10,13 +10,14 @@ jobs:
     name: Build (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         include:
           - os: ubuntu-latest
             artifact: envmanager-linux-x64
             binary: envmanager
 
-          - os: macos-13
+          - os: macos-12
             artifact: envmanager-macos-x64
             binary: envmanager
 
@@ -38,6 +39,10 @@ jobs:
           java-version: '21'
           distribution: 'graalvm'
           native-image-job-reports: 'true'
+
+      - name: Make gradlew executable
+        if: runner.os != 'Windows'
+        run: chmod +x ./gradlew
 
       - name: Build native binary (Unix)
         if: runner.os != 'Windows'
