@@ -17,10 +17,6 @@ jobs:
             artifact: envmanager-linux-x64
             binary: envmanager
 
-          - os: macos-13
-            artifact: envmanager-macos-x64
-            binary: envmanager
-
           - os: macos-latest
             artifact: envmanager-macos-arm64
             binary: envmanager
@@ -50,8 +46,7 @@ jobs:
 
       - name: Build native binary (Windows)
         if: runner.os == 'Windows'
-        run: ./gradlew nativeCompile
-        shell: cmd
+        run: .\gradlew.bat nativeCompile
 
       - name: Rename binary (Unix)
         if: runner.os != 'Windows'
@@ -59,8 +54,8 @@ jobs:
 
       - name: Rename binary (Windows)
         if: runner.os == 'Windows'
-        run: mv build\native\nativeCompile\envmanager.exe ${{ matrix.artifact }}
-        shell: cmd
+        run: Rename-Item build\native\nativeCompile\envmanager.exe ${{ matrix.artifact }}
+        shell: pwsh
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -83,7 +78,6 @@ jobs:
         with:
           files: |
             envmanager-linux-x64
-            envmanager-macos-x64
             envmanager-macos-arm64
             envmanager-windows-x64.exe
           generate_release_notes: true
