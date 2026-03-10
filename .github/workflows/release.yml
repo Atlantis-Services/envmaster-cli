@@ -17,16 +17,16 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            artifact: envmanager-linux-x64
-            binary: envmanager
+            artifact: envmaster-linux-x64
+            binary: envmaster
 
           - os: macos-latest
-            artifact: envmanager-macos-arm64
-            binary: envmanager
+            artifact: envmaster-macos-arm64
+            binary: envmaster
 
           - os: windows-latest
-            artifact: envmanager-windows-x64.exe
-            binary: envmanager.exe
+            artifact: envmaster-windows-x64.exe
+            binary: envmaster.exe
 
     steps:
       - name: Checkout
@@ -53,11 +53,11 @@ jobs:
 
       - name: Move binary (Unix)
         if: runner.os != 'Windows'
-        run: mv build/native/nativeCompile/envmanager ${{ matrix.artifact }}
+        run: mv build/native/nativeCompile/envmaster ${{ matrix.artifact }}
 
       - name: Move binary (Windows)
         if: runner.os == 'Windows'
-        run: Move-Item build\native\nativeCompile\envmanager.exe ${{ matrix.artifact }}
+        run: Move-Item build\native\nativeCompile\envmaster.exe ${{ matrix.artifact }}
         shell: pwsh
 
       - name: Upload artifact
@@ -80,9 +80,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            envmanager-linux-x64
-            envmanager-macos-arm64
-            envmanager-windows-x64.exe
+            envmaster-linux-x64
+            envmaster-macos-arm64
+            envmaster-windows-x64.exe
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -41,7 +41,8 @@ class Client : CliktCommand(
             ProjectCommand(),
             EnvironmentCommand(),
             RunCommand(),
-            InitCommand()
+            InitCommand(),
+            UninstallCommand()
         )
     }
 }
