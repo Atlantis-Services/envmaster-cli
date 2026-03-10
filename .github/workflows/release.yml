@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build (${{ matrix.os }})
@@ -48,13 +51,13 @@ jobs:
         if: runner.os == 'Windows'
         run: .\gradlew.bat nativeCompile
 
-      - name: Rename binary (Unix)
+      - name: Move binary (Unix)
         if: runner.os != 'Windows'
         run: mv build/native/nativeCompile/envmanager ${{ matrix.artifact }}
 
-      - name: Rename binary (Windows)
+      - name: Move binary (Windows)
         if: runner.os == 'Windows'
-        run: Rename-Item build\native\nativeCompile\envmanager.exe ${{ matrix.artifact }}
+        run: Move-Item build\native\nativeCompile\envmanager.exe ${{ matrix.artifact }}
         shell: pwsh
 
       - name: Upload artifact
