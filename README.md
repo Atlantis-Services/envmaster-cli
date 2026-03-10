@@ -10,7 +10,7 @@ Build from source (JDK 17+ and Gradle required):
 
 ```bash
 git clone https://github.com/Atlantis-Services/envmaster-cli
-cd envmaster-client
+cd envmaster-cli
 ./gradlew installDist
 ```
 

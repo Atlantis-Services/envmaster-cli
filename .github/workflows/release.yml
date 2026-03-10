@@ -1,0 +1,86 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            artifact: envmanager-linux-x64
+            binary: envmanager
+
+          - os: macos-13
+            artifact: envmanager-macos-x64
+            binary: envmanager
+
+          - os: macos-latest
+            artifact: envmanager-macos-arm64
+            binary: envmanager
+
+          - os: windows-latest
+            artifact: envmanager-windows-x64.exe
+            binary: envmanager.exe
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: '21'
+          distribution: 'graalvm'
+          native-image-job-reports: 'true'
+
+      - name: Build native binary (Unix)
+        if: runner.os != 'Windows'
+        run: ./gradlew nativeCompile
+
+      - name: Build native binary (Windows)
+        if: runner.os == 'Windows'
+        run: ./gradlew nativeCompile
+        shell: cmd
+
+      - name: Rename binary (Unix)
+        if: runner.os != 'Windows'
+        run: mv build/native/nativeCompile/envmanager ${{ matrix.artifact }}
+
+      - name: Rename binary (Windows)
+        if: runner.os == 'Windows'
+        run: mv build\native\nativeCompile\envmanager.exe ${{ matrix.artifact }}
+        shell: cmd
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.artifact }}
+
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            envmanager-linux-x64
+            envmanager-macos-x64
+            envmanager-macos-arm64
+            envmanager-windows-x64.exe
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
