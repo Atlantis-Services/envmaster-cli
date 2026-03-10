@@ -15,12 +15,8 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-gradle/wrapper/*
 
 gradle.properties
-
-gradlew
-gradlew.bat
 
 .idea/
 .gradle/
@@ -51,7 +47,6 @@ bin/
 
 .gitattributes
 
-**/gradle/wrapper/*
 libs.versions.toml
 
 ### NetBeans ###
