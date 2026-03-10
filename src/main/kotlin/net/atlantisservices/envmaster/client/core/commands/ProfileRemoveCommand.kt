@@ -41,7 +41,7 @@ class ProfileRemoveCommand : CliktCommand(
             if (name == active) {
                 val next = Storage.getActiveProfileName()
                 if (next != null) info("Active profile is now ${primary(next)}")
-                else warn("No remaining profiles — run ${bold("envmanager login")} to authenticate.")
+                else warn("No remaining profiles — run ${bold("envmaster login")} to authenticate.")
             }
         } else {
             cliError("Profile '$name' not found")

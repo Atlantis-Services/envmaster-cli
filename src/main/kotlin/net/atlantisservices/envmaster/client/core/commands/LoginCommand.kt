@@ -86,18 +86,18 @@ class LoginCommand : CliktCommand(
                 is ApiResult.Success -> when (r.data.state) {
                     "APPROVED" -> { spinner.stop(); token = r.data.token; break }
                     "DENIED"   -> { spinner.stop(); cliError("Login was denied in the browser") }
-                    "EXPIRED"  -> { spinner.stop(); cliError("Login link expired — run 'envmanager login' to try again") }
+                    "EXPIRED"  -> { spinner.stop(); cliError("Login link expired — run 'envmaster login' to try again") }
                 }
                 is ApiResult.Error -> when (r.status) {
-                    404, 410 -> { spinner.stop(); cliError("Login session no longer exists — run 'envmanager login' to try again") }
-                    403      -> { spinner.stop(); cliError("Invalid session secret — run 'envmanager login' to try again") }
+                    404, 410 -> { spinner.stop(); cliError("Login session no longer exists — run 'envmaster login' to try again") }
+                    403      -> { spinner.stop(); cliError("Invalid session secret — run 'envmaster login' to try again") }
                     in 500..599 -> { }
                     else     -> { spinner.stop(); cliError("Unexpected error (${r.status}): ${r.error}") }
                 }
             }
         }
 
-        if (token == null) { spinner.stop(); cliError("Login timed out — run 'envmanager login' to try again") }
+        if (token == null) { spinner.stop(); cliError("Login timed out — run 'envmaster login' to try again") }
 
         val authedClient = APIClient(Application.API_URL, token)
         val profile = when (val r = authedClient.getProfile()) {
@@ -112,7 +112,7 @@ class LoginCommand : CliktCommand(
         authedClient.close()
 
         success("Logged in as ${bold(profile.email)}  ${dim("profile: ${cyan(profileName)}")}")
-        printHint("Quick start:", "envmanager init", "envmanager run -- npm run dev")
+        printHint("Quick start:", "envmaster init", "envmaster run -- npm run dev")
     }
 
     private fun tryOpenBrowser(url: String): Boolean =

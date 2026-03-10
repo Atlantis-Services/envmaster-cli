@@ -42,12 +42,12 @@ import net.atlantisservices.envmaster.client.util.withClient
 
 class EnvironmentCommand : CliktCommand(
     name = "environment",
-    help = "Set or show the environment for this directory.\n\nPass an ID, name, or slug to set it, or omit to print the current environment.\n\nReads and writes the .envmanager file in the current directory."
+    help = "Set or show the environment for this directory.\n\nPass an ID, name, or slug to set it, or omit to print the current environment.\n\nReads and writes the .envmaster file in the current directory."
 ) {
     private val id        by argument("id", help = "Environment ID, name, or slug to select").optional()
     private val list      by option("--list", "-L", help = "List environments for the current project").flag()
     private val profile   by option("--profile", "-p", help = "Profile to use")
-    private val projectId by option("--project", help = "Project ID or name (overrides value in .envmanager)")
+    private val projectId by option("--project", help = "Project ID or name (overrides value in .envmaster)")
 
     override fun run() {
         when {
@@ -64,7 +64,7 @@ class EnvironmentCommand : CliktCommand(
                     val eid = client.resolveEnvironmentId(pid, id!!)
                     Storage.saveLocalConfig(Storage.loadLocalConfig().copy(environmentId = eid))
                     println()
-                    success("Environment set to $eid in ${bold(".envmanager")}")
+                    success("Environment set to $eid in ${bold(".envmaster")}")
                 }
             }
             else -> showCurrent()
@@ -74,7 +74,7 @@ class EnvironmentCommand : CliktCommand(
     private suspend fun resolveProjectId(client: net.atlantisservices.envmaster.client.core.api.APIClient): Long {
         projectId?.let { return client.resolveProjectId(it) }
         return Storage.loadLocalConfig().projectId
-            ?: cliError("No project set in ${bold(".envmanager")} — run ${bold("envmanager project <id|name>")} first.")
+            ?: cliError("No project set in ${bold(".envmaster")} — run ${bold("envmaster project <id|name>")} first.")
     }
 
     private fun showCurrent() {
@@ -83,8 +83,8 @@ class EnvironmentCommand : CliktCommand(
         val eid = local.environmentId
         if (eid == null) {
             println()
-            warn("No environment set in ${bold(".envmanager")}.")
-            printHint("Select an environment:", "envmanager environment --list", "envmanager environment <id|name>")
+            warn("No environment set in ${bold(".envmaster")}.")
+            printHint("Select an environment:", "envmaster environment --list", "envmaster environment <id|name>")
             return
         }
         val pid = local.projectId
@@ -100,7 +100,7 @@ class EnvironmentCommand : CliktCommand(
                             println()
                             warn("Environment $eid no longer exists or you've lost access to it.")
                             Storage.saveLocalConfig(local.copy(environmentId = null))
-                            printHint("Select a new environment:", "envmanager environment --list", "envmanager environment <id|name>")
+                            printHint("Select a new environment:", "envmaster environment --list", "envmaster environment <id|name>")
                         }
                     }
                     is ApiResult.Error -> when (r.status) {
@@ -108,7 +108,7 @@ class EnvironmentCommand : CliktCommand(
                             println()
                             warn("Project $pid no longer exists or you've lost access to it.")
                             Storage.saveLocalConfig(local.copy(projectId = null, environmentId = null))
-                            printHint("Select a new project:", "envmanager project --list", "envmanager project <id|name>")
+                            printHint("Select a new project:", "envmaster project --list", "envmaster project <id|name>")
                         }
                         else -> handle401OrError(r)
                     }
@@ -138,7 +138,7 @@ class EnvironmentCommand : CliktCommand(
                         )
                     }
                 )
-                printHint("Select an environment:", "envmanager environment <id|name>")
+                printHint("Select an environment:", "envmaster environment <id|name>")
             }
             is ApiResult.Error -> {
                 handle401OrError(r)

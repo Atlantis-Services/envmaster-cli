@@ -42,13 +42,13 @@ class UninstallCommand : CliktCommand(
             success("Removed ${binary.absolutePath}")
         }
 
-        val config = java.io.File(System.getProperty("user.home"), ".envmanager")
+        val config = java.io.File(System.getProperty("user.home"), ".envmaster")
         if (config.exists()) {
             config.deleteRecursively()
             success("Removed ${config.absolutePath}")
         }
 
         println()
-        info("envmanager has been uninstalled.")
+        info("envmaster has been uninstalled.")
     }
 }

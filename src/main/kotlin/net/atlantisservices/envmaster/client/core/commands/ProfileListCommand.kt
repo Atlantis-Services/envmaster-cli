@@ -39,7 +39,7 @@ class ProfileListCommand : CliktCommand(
         if (data.profiles.isEmpty()) {
             println()
             warn("No profiles configured.")
-            printHint("Get started:", "envmanager login")
+            printHint("Get started:", "envmaster login")
             return
         }
 
@@ -54,7 +54,7 @@ class ProfileListCommand : CliktCommand(
                 )
             }
         )
-        printHint("Switch profile:", "envmanager profile use <name>")
+        printHint("Switch profile:", "envmaster profile use <name>")
     }
 
 }

@@ -35,7 +35,7 @@ dependencies {
 graalvmNative {
     binaries {
         main {
-            imageName = "envmanager"
+            imageName = "envmaster"
             mainClass = "net.atlantisservices.envmaster.client.ApplicationKt"
             buildArgs.addAll(
                     "--no-fallback",

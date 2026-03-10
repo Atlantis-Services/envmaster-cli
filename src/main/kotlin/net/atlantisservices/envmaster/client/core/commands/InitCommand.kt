@@ -26,13 +26,13 @@ import net.atlantisservices.envmaster.client.util.*
 
 class InitCommand : CliktCommand(
     name = "init",
-    help = "Interactively create a .envmanager config file in the current directory"
+    help = "Interactively create a .envmaster config file in the current directory"
 ) {
     private val profile by option("--profile", "-p", help = "Profile to use")
 
     override fun run() {
-        if (java.io.File(".envmanager").exists())
-            cliError(".envmanager already exists in this directory. Remove it first if you want to re-initialise.")
+        if (java.io.File(".envmaster").exists())
+            cliError(".envmaster already exists in this directory. Remove it first if you want to re-initialise.")
 
         val projects = withClient(profile) { client ->
             when (val r = client.listProjects()) {
@@ -94,13 +94,13 @@ class InitCommand : CliktCommand(
         println()
         printDivider()
         println()
-        success("Created ${bold(".envmanager")} and ${bold(".envmanager.local")}")
+        success("Created ${bold(".envmaster")} and ${bold(".envmaster.local")}")
         printKV(
             "Project"     to primary(pidChoice.name),
             "Environment" to primary(eidChoice.name)
         )
-        info("Commit ${bold(".envmanager")} so your team shares the same project and environment.")
-        info("Add ${bold(".envmanager.local")} to your ${bold(".gitignore")} — it contains your personal profile.")
-        printHint("Next:", "envmanager run -- <your-command>")
+        info("Commit ${bold(".envmaster")} so your team shares the same project and environment.")
+        info("Add ${bold(".envmaster.local")} to your ${bold(".gitignore")} — it contains your personal profile.")
+        printHint("Next:", "envmaster run -- <your-command>")
     }
 }

@@ -30,7 +30,7 @@ import net.atlantisservices.envmaster.client.util.*
 
 class ProjectCommand : CliktCommand(
     name = "project",
-    help = "Set or show the project for this directory.\n\nPass an ID or name to set it, or omit to print the current project.\n\nReads and writes the .envmanager file in the current directory."
+    help = "Set or show the project for this directory.\n\nPass an ID or name to set it, or omit to print the current project.\n\nReads and writes the .envmaster file in the current directory."
 ) {
     private val id      by argument("id", help = "Project ID or name to select").optional()
     private val list    by option("--list", "-L", help = "List all accessible projects").flag()
@@ -49,8 +49,8 @@ class ProjectCommand : CliktCommand(
         val pid = Storage.loadLocalConfig().projectId
         if (pid == null) {
             println()
-            warn("No project set in ${bold(".envmanager")}.")
-            printHint("Select a project:", "envmanager project --list", "envmanager project <id|name>")
+            warn("No project set in ${bold(".envmaster")}.")
+            printHint("Select a project:", "envmaster project --list", "envmaster project <id|name>")
             return
         }
         withClient(profile) { client ->
@@ -62,7 +62,7 @@ class ProjectCommand : CliktCommand(
                         println()
                         warn("Project $pid no longer exists or you've lost access to it.")
                         Storage.saveLocalConfig(Storage.loadLocalConfig().copy(projectId = null))
-                        printHint("Select a new project:", "envmanager project --list", "envmanager project <id|name>")
+                        printHint("Select a new project:", "envmaster project --list", "envmaster project <id|name>")
                     }
                 }
                 is ApiResult.Error -> handle401OrError<Unit>(r)
@@ -76,7 +76,7 @@ class ProjectCommand : CliktCommand(
             val pid = client.resolveProjectId(input)
             Storage.saveLocalConfig(Storage.loadLocalConfig().copy(projectId = pid))
             println()
-            success("Project set to $pid in ${bold(".envmanager")}")
+            success("Project set to $pid in ${bold(".envmaster")}")
         }
     }
 
@@ -101,7 +101,7 @@ class ProjectCommand : CliktCommand(
                             )
                         }
                     )
-                    printHint("Select a project:", "envmanager project <id|name>")
+                    printHint("Select a project:", "envmaster project <id|name>")
                 }
                 is ApiResult.Error -> handle401OrError(r)
             }

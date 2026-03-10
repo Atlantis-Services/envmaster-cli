@@ -36,7 +36,7 @@ class ProfileCommand : CliktCommand(
     override fun run() {
         if (currentContext.invokedSubcommand != null) return
 
-        val localName = if (File(".envmanager").exists())
+        val localName = if (File(".envmaster").exists())
             Storage.loadLocalUserConfig().profile
         else null
 
@@ -48,14 +48,14 @@ class ProfileCommand : CliktCommand(
             printKV(
                 "Active profile" to primary(effectiveName),
                 "Email" to text(profile.email),
-                "Scope" to if (localName != null) cyan("local (.envmanager)") else muted("global"),
+                "Scope" to if (localName != null) cyan("local (.envmaster)") else muted("global"),
             )
             if (localName != null && globalName != null && localName != globalName)
                 info("Global default is ${muted(globalName)} — overridden locally")
         } else {
             println()
             warn("No active profile.")
-            printHint("Get started:", "envmanager login")
+            printHint("Get started:", "envmaster login")
         }
     }
 }

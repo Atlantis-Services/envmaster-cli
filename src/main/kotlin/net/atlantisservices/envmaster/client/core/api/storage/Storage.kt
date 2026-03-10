@@ -30,7 +30,7 @@ data class Profile(
     val token: String,
 )
 
-/** ~/.envmanager/profiles.json */
+/** ~/.envmaster/profiles.json */
 @Serializable
 data class ProfilesFile(
     val profiles: Map<String, Profile> = emptyMap(),
@@ -38,7 +38,7 @@ data class ProfilesFile(
 )
 
 /**
- * .envmanager — shared/committed project config.
+ * .envmaster — shared/committed project config.
  * Contains only values safe for the whole team to share.
  */
 data class LocalConfig(
@@ -47,7 +47,7 @@ data class LocalConfig(
 )
 
 /**
- * .envmanager.local — personal, machine-specific config. Should be .gitignored.
+ * .envmaster.local — personal, machine-specific config. Should be .gitignored.
  * Contains per-developer overrides such as which auth profile to use.
  */
 data class LocalUserConfig(
@@ -58,10 +58,10 @@ object Storage {
     private val json = Json { prettyPrint = true; ignoreUnknownKeys = true }
 
     private val homeDir      = File(System.getProperty("user.home"))
-    private val configDir    = File(homeDir, ".envmanager").also { it.mkdirs() }
+    private val configDir    = File(homeDir, ".envmaster").also { it.mkdirs() }
     private val profilesFile = File(configDir, "profiles.json")
-    private val localCfgFile = File(".envmanager")
-    private val localUserCfgFile = File(".envmanager.local")
+    private val localCfgFile = File(".envmaster")
+    private val localUserCfgFile = File(".envmaster.local")
 
     fun loadProfiles(): ProfilesFile =
         profilesFile.readSafe { json.decodeFromString(it) } ?: ProfilesFile()
@@ -108,7 +108,7 @@ object Storage {
 
     fun saveLocalConfig(config: LocalConfig) {
         val lines = buildList {
-            add("# EnvManager project config — commit this file")
+            add("# envmaster project config — commit this file")
             config.projectId?.let     { add("projectId=$it") }
             config.environmentId?.let { add("environmentId=$it") }
         }
@@ -127,7 +127,7 @@ object Storage {
 
     fun saveLocalUserConfig(config: LocalUserConfig) {
         val lines = buildList {
-            add("# EnvManager personal config — do NOT commit this file")
+            add("# envmaster personal config — do NOT commit this file")
             config.profile?.let { add("profile=$it") }
         }
         localUserCfgFile.writeText(lines.joinToString("\n") + "\n")
@@ -147,8 +147,8 @@ object Storage {
         if (exists()) try { parse(readText()) } catch (_: Exception) { null } else null
 
     fun requireLocalConfig() {
-        if (!File(".envmanager").exists())
-            cliError("No .envmanager file found in the current directory. Are you inside a project?")
+        if (!File(".envmaster").exists())
+            cliError("No .envmaster file found in the current directory. Are you inside a project?")
     }
 
 }

@@ -37,10 +37,10 @@ class ProfileUseCommand : CliktCommand(
 
     override fun run() {
         if (Storage.getProfile(name) == null)
-            cliError("Profile '$name' not found — run ${bold("envmanager profile list")} to see available profiles.")
+            cliError("Profile '$name' not found — run ${bold("envmaster profile list")} to see available profiles.")
 
-        if (!File(".envmanager").exists())
-            cliError("No .envmanager file found in the current directory. Are you inside a project?")
+        if (!File(".envmaster").exists())
+            cliError("No .envmaster file found in the current directory. Are you inside a project?")
 
         Storage.saveLocalUserConfig(Storage.loadLocalUserConfig().copy(profile = name))
         val p = Storage.getProfile(name)!!

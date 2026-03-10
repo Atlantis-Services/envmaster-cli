@@ -27,9 +27,9 @@ import net.atlantisservices.envmaster.client.core.api.storage.Storage
 
 fun <T> withClient(profileName: String? = null, block: suspend (APIClient) -> T): T? {
     val name    = profileName ?: Storage.effectiveProfile()
-    ?: run { cliError("Not logged in. Run '${bold("envmanager login")}' first.") }
+    ?: run { cliError("Not logged in. Run '${bold("envmaster login")}' first.") }
     val profile = Storage.getProfile(name)
-        ?: run { cliError("Profile '$name' not found. Run '${bold("envmanager login --profile $name")}'.") }
+        ?: run { cliError("Profile '$name' not found. Run '${bold("envmaster login --profile $name")}'.") }
 
     val client = APIClient(Application.API_URL, profile.token)
     return try {
@@ -54,13 +54,13 @@ fun fetchVars(
     val pid = when {
         project != null -> client.resolveProjectId(project)
         else            -> local.projectId
-            ?: cliError("No project set. Run '${bold("envmanager project <id|name>")}'.")
+            ?: cliError("No project set. Run '${bold("envmaster project <id|name>")}'.")
     }
 
     val eid = when {
         environment != null -> client.resolveEnvironmentId(pid, environment)
         else                -> local.environmentId
-            ?: cliError("No environment set. Run '${bold("envmanager environment <id|name>")}'.")
+            ?: cliError("No environment set. Run '${bold("envmaster environment <id|name>")}'.")
     }
 
     when (val r = client.listVariables(pid, eid)) {
@@ -71,9 +71,9 @@ fun fetchVars(
 
 fun <T> handle401OrError(result: ApiResult.Error): T {
     when (result.status) {
-        401 -> cliError("Session expired. Run '${bold("envmanager login")}' to re-authenticate.")
+        401 -> cliError("Session expired. Run '${bold("envmaster login")}' to re-authenticate.")
         403 -> cliError("Access denied. You don't have permission to access this resource.")
-        404 -> cliError("Project or environment not found. Check your '${bold(".envmanager")}' config or run '${bold("envmanager project <id|name>")}' to set one.")
+        404 -> cliError("Project or environment not found. Check your '${bold(".envmaster")}' config or run '${bold("envmaster project <id|name>")}' to set one.")
         else -> cliError("API error ${result.status}: ${result.error}")
     }
 }
