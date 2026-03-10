@@ -25,7 +25,7 @@ import net.atlantisservices.envmaster.client.util.SystemExit
 import kotlin.system.exitProcess
 
 class Client : CliktCommand(
-    name = "envmanager",
+    name = "envmaster",
     help = """
         Securely manage environment variables across projects and teams.
     """.trimIndent()
