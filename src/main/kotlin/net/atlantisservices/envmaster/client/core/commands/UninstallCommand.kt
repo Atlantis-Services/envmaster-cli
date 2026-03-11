@@ -37,8 +37,24 @@ class UninstallCommand : CliktCommand(
         val binary = ProcessHandle.current().info().command()
             .map { java.io.File(it) }.orElse(null)
 
+        val os = System.getProperty("os.name").lowercase()
+
         if (binary != null && binary.exists()) {
-            binary.delete()
+            if (os.contains("win")) {
+                // On Windows, schedule deletion via a batch script after process exits
+                val bat = java.io.File(System.getenv("TEMP"), "envmaster_uninstall.bat")
+                bat.writeText("""
+                    @echo off
+                    ping 127.0.0.1 -n 3 > nul
+                    del /f /q "${binary.absolutePath}"
+                    rmdir /s /q "${binary.parentFile.absolutePath}"
+                    del /f /q "%~f0"
+                """.trimIndent())
+                ProcessBuilder("cmd", "/c", "start", "/min", bat.absolutePath)
+                    .start()
+            } else {
+                binary.delete()
+            }
             success("Removed ${binary.absolutePath}")
         }
 
