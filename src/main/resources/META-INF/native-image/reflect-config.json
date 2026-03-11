@@ -74,5 +74,17 @@
     "allDeclaredMethods": true,
     "allDeclaredFields": true,
     "allDeclaredConstructors": true
+  },
+  {
+    "name": "io.ktor.network.selector.InterestSuspensionsMap",
+    "allDeclaredFields": true,
+    "allDeclaredMethods": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "io.ktor.network.selector.SelectableBase",
+    "allDeclaredFields": true,
+    "allDeclaredMethods": true,
+    "allDeclaredConstructors": true
   }
 ]
