@@ -32,7 +32,9 @@ class UninstallCommand : CliktCommand(
         println()
         warn("This will remove envmaster from your system.")
         val confirm = promptText("Type 'yes' to confirm")
-        if (confirm != "yes") { info("Aborted."); return }
+        if (confirm != "yes") {
+            info("Aborted."); return
+        }
 
         val binary = ProcessHandle.current().info().command()
             .map { java.io.File(it) }.orElse(null)
@@ -41,16 +43,16 @@ class UninstallCommand : CliktCommand(
 
         if (binary != null && binary.exists()) {
             if (os.contains("win")) {
-                // On Windows, schedule deletion via a batch script after process exits
-                val bat = java.io.File(System.getenv("TEMP"), "envmaster_uninstall.bat")
-                bat.writeText("""
-                    @echo off
-                    ping 127.0.0.1 -n 3 > nul
-                    del /f /q "${binary.absolutePath}"
-                    rmdir /s /q "${binary.parentFile.absolutePath}"
-                    del /f /q "%~f0"
-                """.trimIndent())
-                ProcessBuilder("cmd", "/c", "start", "/min", bat.absolutePath)
+                val ps = java.io.File(System.getenv("TEMP"), "envmaster_uninstall.ps1")
+                ps.writeText(
+                    """
+    Start-Sleep -Seconds 2
+    Remove-Item -Force '${binary.absolutePath}'
+    Remove-Item -Recurse -Force '${binary.parentFile.absolutePath}'
+    Remove-Item -Force ${'$'}PSCommandPath
+""".trimIndent()
+                )
+                ProcessBuilder("powershell", "-WindowStyle", "Hidden", "-NonInteractive", "-File", ps.absolutePath)
                     .start()
             } else {
                 binary.delete()
