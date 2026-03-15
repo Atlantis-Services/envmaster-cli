@@ -50,7 +50,7 @@ class Client : CliktCommand(
 
 object Application {
 
-    const val API_URL = "http://localhost:8080"
+    const val API_URL = "https://api.envmaster.dev"
 
     fun start(args: Array<String>) {
         try {
