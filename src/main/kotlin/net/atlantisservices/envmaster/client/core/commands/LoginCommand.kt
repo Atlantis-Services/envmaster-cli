@@ -120,7 +120,7 @@ class LoginCommand : CliktCommand(
             if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
                 Desktop.getDesktop().browse(URI(url)); true
             } else tryShellOpen(url)
-        } catch (_: Exception) { tryShellOpen(url) }
+        } catch (_: Throwable) { tryShellOpen(url) }
 
     private fun tryShellOpen(url: String): Boolean {
         val os = System.getProperty("os.name").lowercase()
@@ -130,7 +130,7 @@ class LoginCommand : CliktCommand(
             os.contains("win")   -> listOf("cmd", "/c", "start", url)
             else                 -> return false
         }
-        return try { ProcessBuilder(cmd).start(); true } catch (_: Exception) { false }
+        return try { ProcessBuilder(cmd).start(); true } catch (_: Throwable) { false }
     }
 
 }
