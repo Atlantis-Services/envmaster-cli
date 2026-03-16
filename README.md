@@ -38,6 +38,8 @@ envmaster run -- <cmd>    # run any command with env vars injected
 | `project [id\|name\|--list]`     | Set or show the active project |
 | `environment [id\|name\|--list]` | Set or show the active environment |
 | `profile [list\|use\|remove]`    | Manage authentication profiles |
+| `version` | Print the installed version of envmaster |
+| `update` | Update envmaster to the latest version |
 | `uninstall` | Remove envmaster from your system |
 
 Run `envmaster <command> --help` for full flag details.
@@ -52,6 +54,36 @@ Run `envmaster <command> --help` for full flag details.
 | `.envmaster.local` | Personal profile override | ❌ No |
 
 Add `.envmaster.local` to your `.gitignore`. Credentials are stored globally in `~/.envmaster/profiles.json`.
+
+## CI/CD & Automation
+
+For non-interactive environments like CI/CD pipelines, use an API key instead 
+of browser-based login.
+
+Generate an API key from your dashboard under **Developer → API Keys**, then 
+set it as an environment variable:
+
+**GitHub Actions**
+```yaml
+steps:
+  - name: Run with EnvMaster
+    run: envmaster run -- npm run build
+    env:
+      ENVMASTER_TOKEN: ${{ secrets.ENVMASTER_TOKEN }}
+```
+
+**Any shell (macOS / Linux)**
+```bash
+ENVMASTER_TOKEN=em_live_xxx envmaster run -- your-command
+```
+
+**Windows (PowerShell)**
+```powershell
+$env:ENVMASTER_TOKEN="em_live_xxx"; envmaster run -- your-command
+```
+
+When `ENVMASTER_TOKEN` is set, the CLI skips browser authentication entirely 
+and uses the API key directly. No login required.
 
 ## Multiple profiles
 
