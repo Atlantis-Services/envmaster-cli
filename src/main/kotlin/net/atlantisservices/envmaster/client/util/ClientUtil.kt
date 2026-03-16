@@ -26,12 +26,18 @@ import net.atlantisservices.envmaster.client.core.api.models.VariableDTO
 import net.atlantisservices.envmaster.client.core.api.storage.Storage
 
 fun <T> withClient(profileName: String? = null, block: suspend (APIClient) -> T): T? {
-    val name    = profileName ?: Storage.effectiveProfile()
-    ?: run { cliError("Not logged in. Run '${bold("envmaster login")}' first.") }
-    val profile = Storage.getProfile(name)
-        ?: run { cliError("Profile '$name' not found. Run '${bold("envmaster login --profile $name")}'.") }
 
-    val client = APIClient(Application.API_URL, profile.token)
+    val envToken = System.getenv("ENVMASTER_TOKEN")
+
+    val client = if (envToken != null) {
+        APIClient(Application.API_URL, envToken)
+    } else {
+        val name = profileName ?: Storage.effectiveProfile()
+        ?: run { cliError("Not logged in. Run '${bold("envmaster login")}' first.") }
+        val profile = Storage.getProfile(name)
+            ?: run { cliError("Profile '$name' not found. Run '${bold("envmaster login --profile $name")}' first.") }
+        APIClient(Application.API_URL, profile.token)
+    }
     return try {
         runBlocking { block(client) }
     } catch (e: java.net.ConnectException) {
@@ -71,7 +77,7 @@ fun fetchVars(
 
 fun <T> handle401OrError(result: ApiResult.Error): T {
     when (result.status) {
-        401 -> cliError("Session expired. Run '${bold("envmaster login")}' to re-authenticate.")
+        401 -> cliError("Unauthorized. Run '${bold("envmaster login")}' or check your ENVMASTER_TOKEN.")
         403 -> cliError("Access denied. You don't have permission to access this resource.")
         404 -> cliError("Project or environment not found. Check your '${bold(".envmaster")}' config or run '${bold("envmaster project <id|name>")}' to set one.")
         else -> cliError("API error ${result.status}: ${result.error}")
