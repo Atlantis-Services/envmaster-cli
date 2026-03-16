@@ -43,7 +43,8 @@ class Client : CliktCommand(
             RunCommand(),
             InitCommand(),
             UninstallCommand(),
-            UpdateCommand()
+            UpdateCommand(),
+            VersionCommand()
         )
     }
 }
