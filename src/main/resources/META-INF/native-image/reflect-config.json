@@ -86,5 +86,89 @@
     "allDeclaredFields": true,
     "allDeclaredMethods": true,
     "allDeclaredConstructors": true
+  },
+  {
+    "name": "net.atlantisservices.envmaster.client.core.api.models.InitiateResponse",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "net.atlantisservices.envmaster.client.core.api.models.PollResponse",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "net.atlantisservices.envmaster.client.core.api.models.ErrorResponse",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "net.atlantisservices.envmaster.client.core.api.models.UserDTO",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "net.atlantisservices.envmaster.client.core.api.models.ProjectDTO",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "net.atlantisservices.envmaster.client.core.api.models.EnvironmentDTO",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "net.atlantisservices.envmaster.client.core.api.models.VariableDTO",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "net.atlantisservices.envmaster.client.core.api.models.InitiateResponse$$serializer",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "net.atlantisservices.envmaster.client.core.api.models.PollResponse$$serializer",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "net.atlantisservices.envmaster.client.core.api.models.ErrorResponse$$serializer",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "net.atlantisservices.envmaster.client.core.api.models.UserDTO$$serializer",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "net.atlantisservices.envmaster.client.core.api.models.ProjectDTO$$serializer",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "net.atlantisservices.envmaster.client.core.api.models.EnvironmentDTO$$serializer",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "net.atlantisservices.envmaster.client.core.api.models.VariableDTO$$serializer",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
   }
 ]
